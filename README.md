@@ -1,2 +1,2 @@
-# react-task-tracker
+# react-task-app
 React Task Tracker 

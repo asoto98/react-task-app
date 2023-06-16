@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .container {
@@ -23,8 +23,20 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 20px;
+  flex-direction: column;
+}
+.header div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+
+.header span {
+  float: right;
 }
 
 .btn {
@@ -90,11 +102,13 @@ body {
   padding: 3px 7px;
   font-size: 17px;
 }
-
+.password-wrapper {
+  display: flex;
+  position: relative;
+}
 .form-control-check {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .form-control-check label {
@@ -105,7 +119,19 @@ body {
   flex: 2;
   height: 20px;
 }
-
+.password-wrapper span {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  padding: 10px 5px;
+}
+.signup {
+  padding: 5px;
+}
+.signup:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 footer {
   margin-top: 30px;
   text-align: center;

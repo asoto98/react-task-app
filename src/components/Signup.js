@@ -35,8 +35,7 @@ const Signup = () => {
   };
 
   const populateServer = (user) => {
-    console.log("Adding User to database:", nameRef.current.value);
-    //add collection and document to firebase cloudstorage]
+    //add user to 'users' collections
     db.collection("users")
       .add({
         uid: user.uid,

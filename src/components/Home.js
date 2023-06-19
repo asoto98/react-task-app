@@ -4,7 +4,7 @@ import AddTask from "./AddTask";
 import Footer from "./Footer";
 import About from "./About";
 import Button from "./Button";
-import { auth } from "../firebase";
+import { auth, db, ref, set } from "../firebase";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -28,7 +28,7 @@ const Home = () => {
     return data;
   };
 
-  //Add Task
+  //Add Task localhost server
   const addTask = async (task) => {
     const res = await fetch("http://localhost:5000/tasks", {
       method: "POST",

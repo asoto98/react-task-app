@@ -25,6 +25,7 @@ const Signup = () => {
         auth.currentUser.updateProfile({
           displayName: nameRef.current.value,
         });
+
         console.log("Populating Cloud Storage: ", nameRef.current.value);
         populateServer(auth.currentUser);
       })

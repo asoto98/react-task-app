@@ -3,7 +3,8 @@ import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useRef } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { DocumentReference, collection } from "firebase/firestore";
 
 //call loginUser and wait for token after submission
 const Signup = () => {
@@ -19,14 +20,30 @@ const Signup = () => {
         emailRef.current.value,
         passwordRef.current.value
       )
-      .then((user) => {
+      .then(() => {
         console.log("Current Name:", nameRef.current.value);
         auth.currentUser.updateProfile({
           displayName: nameRef.current.value,
         });
+        console.log("Populating Cloud Storage: ", nameRef.current.value);
+        populateServer(auth.currentUser);
       })
       .catch((error) => {
         alert(error.message);
+      });
+  };
+
+  const populateServer = (user) => {
+    console.log("Adding User to database:", nameRef.current.value);
+    //add collection and document to firebase cloudstorage]
+    db.collection("users")
+      .add({
+        uid: user.uid,
+        name: user.displayName,
+        tasks: [],
+      })
+      .then(() => {
+        console.log("User added with ref: ", DocumentReference);
       });
   };
 

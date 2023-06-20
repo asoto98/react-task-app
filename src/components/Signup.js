@@ -3,7 +3,8 @@ import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useRef } from "react";
-import { auth, db } from "../firebase";
+import { auth, db1 } from "../firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 
 //call loginUser and wait for token after submission
 const Signup = () => {
@@ -11,9 +12,9 @@ const Signup = () => {
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
   // sign up function
-  const createAccount = (e) => {
+  const createAccount = async (e) => {
     e.preventDefault();
-    auth
+    await auth
       ?.createUserWithEmailAndPassword(
         emailRef.current.value,
         passwordRef.current.value
@@ -22,7 +23,8 @@ const Signup = () => {
         auth.currentUser.updateProfile({
           displayName: nameRef.current.value,
         });
-        db.collection("users").doc(auth.currentUser.uid).collection("tasks");
+        populateUser();
+        populateTasks();
       })
       .catch((error) => {
         alert(error.message);

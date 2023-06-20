@@ -85,7 +85,7 @@ const Home = () => {
         <Header
           onAdd={() => setShowAddTask(!showAddTask)}
           showAdd={showAddTask}
-          name={displayName}
+          name={auth.currentUser.displayName}
         />
         <Routes>
           <Route

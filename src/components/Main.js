@@ -10,7 +10,7 @@ const Main = () => {
   const handleForm = () => {
     setForm(!form);
   };
-  console.log("Main component rendering");
+
   return (
     <div className='container'>
       <h2>Welcome to React Task Tracker!</h2>

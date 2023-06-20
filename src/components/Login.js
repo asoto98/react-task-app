@@ -35,8 +35,6 @@ const Login = () => {
     setShow(!show);
     setIcon(show ? eye : eyeOff);
   };
-  console.log("Login component rendering");
-
   return (
     <form className='form-control' onSubmit={signIn}>
       <h3>Please Log In</h3>

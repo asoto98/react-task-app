@@ -22,12 +22,10 @@ const AddTask = ({ onAdd }) => {
     }
     //send
     onAdd({ text, day, reminder });
-    console.log(day);
     setText("");
     setDay(format(new Date(), "MMMM d, yyyy h:mm a"));
     setReminder(false);
   };
-  console.log("Add Task Component Re-Rendering");
   return (
     <form className='add-form' onSubmit={onSubmit}>
       <div className='form-control'>

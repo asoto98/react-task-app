@@ -4,7 +4,6 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useRef } from "react";
 import { auth, db } from "../firebase";
-import { DocumentReference, collection } from "firebase/firestore";
 
 //call loginUser and wait for token after submission
 const Signup = () => {
@@ -25,27 +24,21 @@ const Signup = () => {
         auth.currentUser.updateProfile({
           displayName: nameRef.current.value,
         });
-
-        console.log("Populating Cloud Storage: ", nameRef.current.value);
-        populateServer(auth.currentUser);
+        db.collection("users").doc(auth.currentUser.uid).collection("tasks");
       })
       .catch((error) => {
         alert(error.message);
       });
   };
 
-  const populateServer = (user) => {
-    //add user to 'users' collections
-    db.collection("users")
+  /*db.collection("users")
       .add({
         uid: user.uid,
-        name: user.displayName,
-        tasks: [],
+        name: nameRef.current.value,
+        email: emailRef.current.value,
       })
-      .then(() => {
-        console.log("User added with ref: ", DocumentReference);
-      });
-  };
+      .collection("tasks");
+ */
 
   //set up hooks for hiding/showing password
   const [show, setShow] = useState(false);
@@ -56,7 +49,6 @@ const Signup = () => {
     setShow(!show);
     setIcon(show ? eye : eyeOff);
   };
-  console.log("SignUp component rendering");
   return (
     <form className='form-control' onSubmit={createAccount}>
       <h3>Create an Account</h3>

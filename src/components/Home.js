@@ -4,7 +4,7 @@ import AddTask from "./AddTask";
 import Footer from "./Footer";
 import About from "./About";
 import Button from "./Button";
-import { auth, db, ref, set } from "../firebase";
+import { auth } from "../firebase";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -79,9 +79,7 @@ const Home = () => {
 
     return data;
   };
-  console.log("Home Component Rendering");
-  console.log("USER NAME:", auth.currentUser.displayName);
-  var displayName = auth.currentUser.displayName;
+  let displayName = auth.currentUser.displayName;
   return (
     <Router>
       <div className='container'>

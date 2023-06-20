@@ -10,7 +10,6 @@ const Signup = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
-
   // sign up function
   const createAccount = (e) => {
     e.preventDefault();
@@ -20,7 +19,6 @@ const Signup = () => {
         passwordRef.current.value
       )
       .then(() => {
-        console.log("Current Name:", nameRef.current.value);
         auth.currentUser.updateProfile({
           displayName: nameRef.current.value,
         });
@@ -31,14 +29,22 @@ const Signup = () => {
       });
   };
 
-  /*db.collection("users")
-      .add({
-        uid: user.uid,
-        name: nameRef.current.value,
-        email: emailRef.current.value,
-      })
-      .collection("tasks");
- */
+  const populateUser = () => {
+    console.log("UID:", auth.currentUser.uid);
+    setDoc(doc(db1, "users", auth.currentUser.uid), {
+      uid: auth.currentUser.uid,
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+    });
+  };
+
+  const populateTasks = () => {
+    setDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task1`), {
+      task: "Finish this feature",
+      date: "June 20th, 2023 9:00 AM",
+      reminder: false,
+    });
+  };
 
   //set up hooks for hiding/showing password
   const [show, setShow] = useState(false);

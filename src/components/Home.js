@@ -79,7 +79,6 @@ const Home = () => {
 
     return data;
   };
-  let displayName = auth.currentUser.displayName;
   return (
     <Router>
       <div className='container'>

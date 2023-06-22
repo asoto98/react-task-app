@@ -2,6 +2,8 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import { auth, db1 } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const AddTask = ({ onAdd }) => {
   const [text, setText] = useState("");
@@ -13,6 +15,22 @@ const AddTask = ({ onAdd }) => {
     const currentDate = new Date();
     return day > currentDate;
   };
+  const populateTasks = ({ text, day, reminder }) => {
+    setDoc(
+      doc(
+        db1,
+        `users/${auth.currentUser.uid}/tasks/task${Math.floor(
+          Math.random(5) * parseInt(new Date(day).getTime())
+        )}`
+      ),
+      {
+        task: text,
+        date: day,
+        reminder: reminder,
+      }
+    );
+  };
+
   //If trying to add empty task
   const onSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +40,7 @@ const AddTask = ({ onAdd }) => {
     }
     //send
     onAdd({ text, day, reminder });
+    populateTasks({ text, day, reminder });
     setText("");
     setDay(format(new Date(), "MMMM d, yyyy h:mm a"));
     setReminder(false);

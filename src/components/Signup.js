@@ -4,7 +4,7 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useRef } from "react";
 import { auth, db1 } from "../firebase";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 //call loginUser and wait for token after submission
 const Signup = () => {
@@ -24,7 +24,6 @@ const Signup = () => {
           displayName: nameRef.current.value,
         });
         populateUser();
-        populateTasks();
       })
       .catch((error) => {
         alert(error.message);
@@ -37,14 +36,6 @@ const Signup = () => {
       uid: auth.currentUser.uid,
       name: nameRef.current.value,
       email: emailRef.current.value,
-    });
-  };
-
-  const populateTasks = () => {
-    setDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task1`), {
-      task: "Finish this feature",
-      date: "June 20th, 2023 9:00 AM",
-      reminder: false,
     });
   };
 

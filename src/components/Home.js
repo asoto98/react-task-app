@@ -41,7 +41,7 @@ const Home = () => {
     var tasksArray = [];
     querySnapshot.forEach((doc) => {
       tasksArray.push(doc.data());
-
+      console.log("Task being added in 'fetchTasks");
       console.log(doc.id, " => ", doc.data());
     });
 

@@ -27,6 +27,7 @@ const AddTask = ({ onAdd }) => {
         task: text,
         date: day,
         reminder: reminder,
+        id: parseInt(new Date(day).getTime()),
       }
     );
   };

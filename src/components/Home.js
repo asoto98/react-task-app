@@ -7,6 +7,7 @@ import Button from "./Button";
 import { auth } from "../firebase";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
 
 const Home = () => {
   const [showAddTask, setShowAddTask] = useState(false);

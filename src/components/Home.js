@@ -14,26 +14,16 @@ const Home = () => {
   const [tasks, setTasks] = useState([]);
   //set tasks
   useEffect(() => {
-    //const getTasks = async () => {
-    //   const tasksFromServer = await fetchTasks();
-    //   setTasks(tasksFromServer);
-    // };
     //database calls
     const getTasksDatabase = async () => {
       const tasksFromDatabase = await fetchTasks();
       setTasks(tasksFromDatabase);
     };
     getTasksDatabase();
-
-    //getTasks();
   }, []);
 
   //Fetch Tasks
   const fetchTasks = async () => {
-    //fetch all tasks from server
-    // const res = await fetch("http://localhost:5000/tasks");
-    // const data = await res.json();
-
     //Pull document task from subcollection Tasks from Users/user/
     const querySnapshot = await getDocs(
       collection(db1, "users", `${auth.currentUser.uid}`, "tasks")

@@ -7,7 +7,7 @@ import Button from "./Button";
 import { auth, db1 } from "../firebase";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, getDocs, doc } from "firebase/firestore";
 
 const Home = () => {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -31,8 +31,6 @@ const Home = () => {
     var tasksArray = [];
     querySnapshot.forEach((doc) => {
       tasksArray.push(doc.data());
-      console.log("Task being added in 'fetchTasks");
-      console.log(doc.id, " => ", doc.data());
     });
 
     return tasksArray;
@@ -54,9 +52,11 @@ const Home = () => {
 
   // Delete Task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: "DELETE",
-    });
+    // await fetch(`http://localhost:5000/tasks/${id}`, {
+    //   method: "DELETE",
+    // });
+
+    await deleteDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task${id}`));
 
     setTasks(tasks.filter((task) => task.id !== id));
   };

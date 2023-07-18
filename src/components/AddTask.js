@@ -9,6 +9,7 @@ const AddTask = ({ onAdd }) => {
   const [text, setText] = useState("");
   const [day, setDay] = useState(format(new Date(), "MMMM d, yyyy h:mm a"));
   const [reminder, setReminder] = useState(false);
+  var docuID = "";
 
   //Filter passed time select if adding calendar for current day
   const filterPassedTime = (day) => {
@@ -16,20 +17,15 @@ const AddTask = ({ onAdd }) => {
     return day > currentDate;
   };
   const populateTasks = ({ text, day, reminder }) => {
-    setDoc(
-      doc(
-        db1,
-        `users/${auth.currentUser.uid}/tasks/task${Math.floor(
-          Math.random(5) * parseInt(new Date(day).getTime())
-        )}`
-      ),
-      {
-        task: text,
-        date: day,
-        reminder: reminder,
-        id: parseInt(new Date(day).getTime()),
-      }
-    );
+    docuID = Math.floor(Math.random(5) * parseInt(new Date(day).getTime()));
+    console.log(docuID);
+    setDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task${docuID}`), {
+      task: text,
+      date: day,
+      reminder: reminder,
+      id: docuID,
+    });
+    docuID = "";
   };
 
   //If trying to add empty task

@@ -22,7 +22,6 @@ function App() {
     });
     return unsubscribe;
   }, []);
-  console.log("App Re-Rendering");
   return <div>{user ? <Home /> : <Main />}</div>;
 }
 

@@ -3,31 +3,40 @@ import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useRef } from "react";
-import { auth } from "../firebase";
+import { auth, db1 } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 //call loginUser and wait for token after submission
 const Signup = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
-
   // sign up function
-  const createAccount = (e) => {
+  const createAccount = async (e) => {
     e.preventDefault();
-    auth
+    await auth
       ?.createUserWithEmailAndPassword(
         emailRef.current.value,
         passwordRef.current.value
       )
-      .then((user) => {
-        console.log("Current Name:", nameRef.current.value);
+      .then(() => {
         auth.currentUser.updateProfile({
           displayName: nameRef.current.value,
         });
+        populateUser();
       })
       .catch((error) => {
         alert(error.message);
       });
+  };
+
+  const populateUser = () => {
+    console.log("UID:", auth.currentUser.uid);
+    setDoc(doc(db1, "users", auth.currentUser.uid), {
+      uid: auth.currentUser.uid,
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+    });
   };
 
   //set up hooks for hiding/showing password
@@ -39,7 +48,6 @@ const Signup = () => {
     setShow(!show);
     setIcon(show ? eye : eyeOff);
   };
-  console.log("SignUp component rendering");
   return (
     <form className='form-control' onSubmit={createAccount}>
       <h3>Create an Account</h3>

@@ -7,7 +7,14 @@ import Button from "./Button";
 import { auth, db1 } from "../firebase";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { collection, deleteDoc, getDocs, doc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 
 const Home = () => {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -52,41 +59,26 @@ const Home = () => {
 
   // Delete Task
   const deleteTask = async (id) => {
-    // await fetch(`http://localhost:5000/tasks/${id}`, {
-    //   method: "DELETE",
-    // });
-
     await deleteDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task${id}`));
 
     setTasks(tasks.filter((task) => task.id !== id));
   };
-
-  //Toggle Reminder
-  const toggleReminder = async (id) => {
-    const taskToToggle = await fetchTask(id);
-    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
-
-    await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(updTask),
+  //toggle reminder on database
+  const toggleReminderDatabase = async (id) => {
+    const taskRef = await doc(
+      db1,
+      `users/${auth.currentUser.uid}/tasks/task${id}`
+    );
+    const docSnap = await getDoc(taskRef);
+    const data = docSnap.data();
+    updateDoc(taskRef, {
+      reminder: !data.reminder,
     });
-
     setTasks(
       tasks.map((task) =>
         task.id === id ? { ...task, reminder: !task.reminder } : task
       )
     );
-  };
-
-  //Fetch Task
-  const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`);
-    const data = await res.json();
-
-    return data;
   };
 
   return (
@@ -107,7 +99,7 @@ const Home = () => {
                   <Tasks
                     tasks={tasks}
                     onDelete={deleteTask}
-                    onToggle={toggleReminder}
+                    onToggle={toggleReminderDatabase}
                   />
                 ) : (
                   "No Tasks To Show"

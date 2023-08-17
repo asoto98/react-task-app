@@ -18,7 +18,6 @@ const AddTask = ({ onAdd }) => {
   };
   const populateTasks = ({ text, day, reminder }) => {
     docuID = Math.floor(Math.random(5) * parseInt(new Date(day).getTime()));
-    console.log(docuID);
     setDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task${docuID}`), {
       task: text,
       date: day,

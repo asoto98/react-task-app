@@ -19,6 +19,7 @@ import {
 const Home = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [reload, setReload] = useState(false);
   //set tasks
   useEffect(() => {
     //database calls
@@ -27,7 +28,7 @@ const Home = () => {
       setTasks(tasksFromDatabase);
     };
     getTasksDatabase();
-  }, []);
+  }, [reload]);
 
   //Fetch Tasks
   const fetchTasks = async () => {
@@ -86,7 +87,9 @@ const Home = () => {
             path='/'
             element={
               <>
-                {showAddTask && <AddTask onAdd={addTask} />}
+                {showAddTask && (
+                  <AddTask onAdd={addTask} setReload={setReload} />
+                )}
                 {tasks.length > 0 ? (
                   <Tasks
                     tasks={tasks}

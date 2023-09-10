@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import { auth, db1 } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 
-const AddTask = ({ onAdd }) => {
+const AddTask = ({ onAdd, setReload }) => {
   const [text, setText] = useState("");
   const [day, setDay] = useState(format(new Date(), "MMMM d, yyyy h:mm a"));
   const [reminder, setReminder] = useState(false);
@@ -18,7 +18,6 @@ const AddTask = ({ onAdd }) => {
   };
   const populateTasks = ({ text, day, reminder }) => {
     docuID = Math.floor(Math.random(5) * parseInt(new Date(day).getTime()));
-    console.log(docuID);
     setDoc(doc(db1, `users/${auth.currentUser.uid}/tasks/task${docuID}`), {
       task: text,
       date: day,
@@ -27,7 +26,6 @@ const AddTask = ({ onAdd }) => {
     });
     docuID = "";
   };
-
   //If trying to add empty task
   const onSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +40,7 @@ const AddTask = ({ onAdd }) => {
     setDay(format(new Date(), "MMMM d, yyyy h:mm a"));
     setReminder(false);
   };
+
   return (
     <form className='add-form' onSubmit={onSubmit}>
       <div className='form-control'>
@@ -80,7 +79,12 @@ const AddTask = ({ onAdd }) => {
         />
       </div>
 
-      <input type='submit' value='Save Task' className='btn btn-block' />
+      <input
+        type='submit'
+        onClick={() => setReload((prev) => !prev)}
+        value='Save Task'
+        className='btn btn-block'
+      />
     </form>
   );
 };
